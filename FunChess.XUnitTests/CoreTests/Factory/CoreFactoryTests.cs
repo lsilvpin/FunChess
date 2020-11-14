@@ -26,7 +26,7 @@ namespace FunChess.XUnitTests.CoreTests.Factory
         }
 
         [Fact]
-        public void IsCoordinatesBeenCreated()
+        public void IsPositionsBeenCreated()
         {
             Position coordinate = core.CreatePosition(2, 3);
 
