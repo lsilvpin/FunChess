@@ -26,6 +26,43 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
         [Theory]
         [InlineData(PieceColor.White)]
         [InlineData(PieceColor.Black)]
+        public void IsPawnPermitedPositionsBeenCalculatedCorrectlyWhenPawnIsThreatningEnemyPieces(PieceColor color)
+        {
+            // Arrange
+            Board board = core.CreateEmptyBoard();
+            Pawn pawn = core.CreatePawn(color);
+            Position pawnPosition = core.CreatePosition(3, 3);
+            Rook rook = core.CreateRook(testHelper.SwitchColor(color));
+            int increment = (color == PieceColor.White) ? +1 : -1;
+            Position rookPosition = core.CreatePosition(pawnPosition.Line + increment, pawnPosition.Column + increment);
+            board.PutAt(pawn, pawnPosition);
+            board.PutAt(rook, rookPosition);
+
+            // Act
+            bool[,] pawnPermissionMatrix = pawn.GetPermissionMatrix(board);
+            int amountOfPermitedPositions = pawn.CountPermitedPositions();
+            HashSet<Position> pawnAllowedSet = pawn.GetAllowedSet();
+
+            // Assert
+            Assert.NotNull(pawnPermissionMatrix);
+            Assert.Equal(2, amountOfPermitedPositions);
+            Assert.NotNull(pawnAllowedSet);
+            Assert.Equal(2, pawnAllowedSet.Count);
+            if (color == PieceColor.White)
+            {
+                Assert.Contains(core.CreatePosition(4, 3), pawnAllowedSet);
+                Assert.Contains(core.CreatePosition(4, 4), pawnAllowedSet);
+            }
+            else
+            {
+                Assert.Contains(core.CreatePosition(2, 3), pawnAllowedSet);
+                Assert.Contains(core.CreatePosition(2, 2), pawnAllowedSet);
+            }
+        }
+
+        [Theory]
+        [InlineData(PieceColor.White)]
+        [InlineData(PieceColor.Black)]
         public void IsPawnPermitedPositionsBeenCalculatedCorrectlyWhenPawnIsBeenBlocked(PieceColor color)
         {
             // Arrange
