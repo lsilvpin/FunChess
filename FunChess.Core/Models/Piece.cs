@@ -15,6 +15,10 @@ namespace FunChess.Core.Models
         public Position Position { get; set; }
 
         protected Piece() { }
+        protected Piece(CoreFactory core)
+        {
+            this.core = core;
+        }
         protected Piece(CoreFactory core, PieceColor color)
         {
             this.core = core;

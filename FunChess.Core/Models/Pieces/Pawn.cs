@@ -7,7 +7,7 @@ namespace FunChess.Core.Models.Pieces
 {
     public class Pawn : Piece
     {
-        public Pawn() { }
+        public Pawn() : base(Beyond.Core) { }
         public Pawn(CoreFactory core, PieceColor pieceColor)
             : base(core, pieceColor)
         {

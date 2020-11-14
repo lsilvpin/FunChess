@@ -5,7 +5,7 @@ namespace FunChess.Core.Models.Pieces
 {
     public class Rook : Piece
     {
-        public Rook() { }
+        public Rook() : base(Beyond.Core) { }
         public Rook(CoreFactory core, PieceColor pieceColor)
             : base(core, pieceColor)
         {
