@@ -3,7 +3,7 @@ using FunChess.Core.Factory;
 using FunChess.Core.Models;
 using Xunit;
 
-namespace FunChess.XUnitTests.CoreTests.BusinessLogicTests
+namespace FunChess.XUnitTests.CoreTests.BusinessLogic
 {
     public class BrainTests
     {

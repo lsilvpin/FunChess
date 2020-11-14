@@ -5,7 +5,7 @@ using FunChess.Core.Models.Pieces;
 using System.Collections.Generic;
 using Xunit;
 
-namespace FunChess.XUnitTests.CoreTests.Models.PiecesTests
+namespace FunChess.XUnitTests.CoreTests.Models.Pieces
 {
     public class PawnTests
     {

@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using Xunit;
 
-namespace FunChess.XUnitTests.CoreTests.Models.PiecesTests
+namespace FunChess.XUnitTests.CoreTests.Models.Pieces
 {
     public class KingTests
     {
