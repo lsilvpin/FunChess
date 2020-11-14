@@ -42,5 +42,30 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
             Assert.Contains(core.CreatePosition(initialLine + increment, 2), allowedSet);
             Assert.Contains(core.CreatePosition(initialLine + 2 * increment, 2), allowedSet);
         }
+
+        [Theory]
+        [InlineData(PieceColor.White)]
+        [InlineData(PieceColor.Black)]
+        public void IsPawnAllowedSetBeenConstructedCorrectlyWhenPawnIsInMidleOfBoardWithoutAnyBlockOrThreatningFoe(PieceColor color)
+        {
+            // Arrange
+            Board board = core.CreateEmptyBoard();
+            Pawn pawn = core.CreatePawn(color);
+            Position initialPosition = core.CreatePosition(3, 3);
+            board.PutAt(pawn, initialPosition);
+            int increment = (color == PieceColor.White) ? +1 : -1;
+
+            // Act
+            bool[,] pawnPermitedMatrix = pawn.GetPermissionMatrix(board);
+            int amountOfPermitedPositions = pawn.CountPermitedPositions();
+            HashSet<Position> pawnAllowedSet = pawn.GetAllowedSet();
+
+            // Assert
+            Assert.NotNull(pawnPermitedMatrix);
+            Assert.Equal(1, amountOfPermitedPositions);
+            Assert.NotNull(pawnAllowedSet);
+            Assert.Single(pawnAllowedSet);
+            Assert.Contains(core.CreatePosition(initialPosition.Line + increment, initialPosition.Column), pawnAllowedSet);
+        }
     }
 }
