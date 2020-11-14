@@ -2,6 +2,7 @@
 using FunChess.Core.Enums;
 using FunChess.Core.Models;
 using FunChess.Core.Models.Pieces;
+using FunChess.Core.Tools;
 
 namespace FunChess.Core.Factory
 {
@@ -11,6 +12,11 @@ namespace FunChess.Core.Factory
 
         public CoreFactory()
         {
+        }
+
+        public Cloner CreateCloner()
+        {
+            return new Cloner(this);
         }
 
         public King CreateKing(PieceColor color)
@@ -49,7 +55,7 @@ namespace FunChess.Core.Factory
 
         public Board CreateEmptyBoard()
         {
-            return new Board();
+            return new Board(this);
         }
 
         public Rook CreateRook(PieceColor color)

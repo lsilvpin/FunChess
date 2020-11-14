@@ -5,6 +5,7 @@ namespace FunChess.Core.Models.Pieces
 {
     public class Bishop : Piece
     {
+        public Bishop() { }
         public Bishop(CoreFactory core, PieceColor pieceColor)
             : base(core, pieceColor)
         {

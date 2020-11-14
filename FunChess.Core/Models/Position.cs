@@ -7,6 +7,7 @@ namespace FunChess.Core.Models
         public int Line { get; set; }
         public int Column { get; set; }
 
+        public Position() { }
         public Position(int line, int column)
         {
             Line = line;
@@ -24,5 +25,34 @@ namespace FunChess.Core.Models
         {
             return HashCode.Combine(Line, Column);
         }
+
+        public override string ToString()
+        {
+            return ConvertToChessSymbology(this);
+        }
+
+        public string ConvertToChessSymbology(Position position)
+        {
+            string letter = PrvConvertToLetter(position.Column);
+            string digit = (position.Line + 1).ToString();
+            return string.Concat(letter, digit);
+        }
+
+        #region Private helpers
+        private string PrvConvertToLetter(int column)
+        {
+            return column switch
+            {
+                0 => "A",
+                1 => "B",
+                2 => "C",
+                3 => "D",
+                4 => "E",
+                5 => "F",
+                6 => "G",
+                _ => "H"
+            };
+        }
+        #endregion
     }
 }

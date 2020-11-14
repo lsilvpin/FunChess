@@ -17,6 +17,25 @@ namespace FunChess.XUnitTests.CoreTests.Exceptions
         }
 
         [Fact]
+        public void IsErrorThereIsNoRoomForYourPieceWorkingCorrectly()
+        {
+            // Arrange
+            Position position = core.CreatePosition(1, 2);
+            Knight knight = core.CreateKnight(PieceColor.White);
+            Board board = core.CreateEmptyBoard();
+            board.PutAt(knight, position);
+            Rook rook = core.CreateRook(PieceColor.White);
+
+            // Act
+            ThereIsNoRoomForYourPieceAtThisPositionException thereIsNoRoomError = Assert
+                .Throws<ThereIsNoRoomForYourPieceAtThisPositionException>(() => { board.PutAt(rook, position); });
+
+            // Assert
+            Assert.Equal("You cannot put your Rook at position C2 because already exists a Knight in this square.", 
+                thereIsNoRoomError.Message);
+        }
+
+        [Fact]
         public void IsPiecesOutOfBoardExceptionWorkingCorrectly()
         {
             // Arrange

@@ -2,6 +2,7 @@
 using FunChess.Core.Enums;
 using FunChess.Core.Factory;
 using FunChess.Core.Models;
+using FunChess.Core.Tools;
 using System.Collections.Generic;
 using Xunit;
 
@@ -14,6 +15,14 @@ namespace FunChess.XUnitTests.CoreTests.Factory
         public CoreFactoryTests()
         {
             core = Beyond.Core;
+        }
+
+        [Fact]
+        public void IsClonerBeenCreated()
+        {
+            Cloner cloner = core.CreateCloner();
+
+            Assert.NotNull(cloner);
         }
 
         [Fact]
