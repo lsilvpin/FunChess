@@ -7,7 +7,7 @@ namespace FunChess.Core.Exceptions
     [Serializable]
     public class PieceOutOfBoardException : Exception
     {
-        private const string message = "The {color} {type} i working with should not be out of board.";
+        private const string message = "The {color} {type} I'm working with is out of board.";
 
         public PieceOutOfBoardException(Type type, PieceColor color)
             : base(message.Replace("{type}", type.Name).Replace("{color}", color.ToString()))

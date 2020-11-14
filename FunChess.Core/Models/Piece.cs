@@ -1,4 +1,5 @@
 ﻿using FunChess.Core.Enums;
+using FunChess.Core.Exceptions;
 using FunChess.Core.Factory;
 using System;
 using System.Collections.Generic;
@@ -49,6 +50,12 @@ namespace FunChess.Core.Models
                 }
             }
             return allowedSet;
+        }
+
+        public void ValidateIfPositionIsInsideLimits()
+        {
+            if (Position.Line < 0 || Position.Line > 7 || Position.Column < 0 || Position.Column > 7)
+                throw new PieceOutOfBoardException(GetType(), Color);
         }
 
         public override bool Equals(object obj)

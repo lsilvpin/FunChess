@@ -24,7 +24,7 @@ namespace FunChess.Core.Models
             return piece;
         }
 
-        public Piece At(Position position)
+        public Piece LookAt(Position position)
         {
             return Grid[position.Line, position.Column];
         }
