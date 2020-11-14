@@ -1,7 +1,8 @@
-﻿using System;
+﻿using FunChess.Core.Models;
+using System;
 using System.Runtime.Serialization;
 
-namespace FunChess.Core.Models
+namespace FunChess.Core.Exceptions
 {
     [Serializable]
     public class ThereIsNoRoomForYourPieceAtThisPositionException : Exception
