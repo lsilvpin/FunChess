@@ -16,13 +16,18 @@ namespace FunChess.XUnitTests.CoreTests.Models.PiecesTests
             core = Beyond.Core;
         }
 
-        [Fact]
-        public void IsPawnPermitedPositionsBeenCalculatedCorrectlyWhenPawnIsAtInitialLineWithouAnyBlockOrThreatningFoe()
+        [Theory]
+        [InlineData(PieceColor.White)]
+        [InlineData(PieceColor.Black)]
+        public void IsPawnPermitedPositionsBeenCalculatedCorrectlyWhenPawnIsAtInitialLineWithouAnyBlockOrThreatningFoe(PieceColor color)
         {
             // Arrange
             Board board = core.CreateEmptyBoard();
             Pawn whitePawn = core.CreatePawn(PieceColor.White);
-            board.PutAt(whitePawn, core.CreatePosition(1, 2));
+            int increment = (color == PieceColor.White) ? +1 : -1;
+            int initialLine = (color == PieceColor.White) ? 1 : 6;
+            Position position = core.CreatePosition(initialLine, 2);
+            board.PutAt(whitePawn, position);
 
             // Act
             bool[,] permissionMatrix = whitePawn.GetPermissionMatrix(board);
@@ -34,8 +39,8 @@ namespace FunChess.XUnitTests.CoreTests.Models.PiecesTests
             Assert.Equal(2, amountOfPermitedPositions);
             Assert.NotNull(allowedSet);
             Assert.Equal(2, allowedSet.Count);
-            Assert.Contains(core.CreatePosition(2, 2), allowedSet);
-            Assert.Contains(core.CreatePosition(3, 2), allowedSet);
+            Assert.Contains(core.CreatePosition(initialLine + increment, 2), allowedSet);
+            Assert.Contains(core.CreatePosition(initialLine + 2 * increment, 2), allowedSet);
         }
     }
 }
