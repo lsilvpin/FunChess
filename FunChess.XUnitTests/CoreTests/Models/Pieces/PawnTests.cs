@@ -23,7 +23,7 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
         {
             // Arrange
             Board board = core.CreateEmptyBoard();
-            Pawn whitePawn = core.CreatePawn(PieceColor.White);
+            Pawn whitePawn = core.CreatePawn(color);
             int increment = (color == PieceColor.White) ? +1 : -1;
             int initialLine = (color == PieceColor.White) ? 1 : 6;
             Position position = core.CreatePosition(initialLine, 2);
