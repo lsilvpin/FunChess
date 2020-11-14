@@ -2,6 +2,8 @@
 using FunChess.Core.Factory;
 using FunChess.Core.Models;
 using FunChess.Core.Models.Pieces;
+using FunChess.XUnitTests.TestTools.Factory;
+using FunChess.XUnitTests.TestTools.Helpers;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -11,10 +13,14 @@ namespace FunChess.XUnitTests.CoreTests.Models
     public class BoardTests
     {
         private readonly CoreFactory core;
+        private readonly TestFactory test;
+        private readonly TestHelper testHelper;
 
         public BoardTests()
         {
             core = Beyond.Core;
+            test = TestVortex.Test;
+            testHelper = test.CreateTestHelper();
         }
 
         [Fact]
@@ -134,7 +140,7 @@ namespace FunChess.XUnitTests.CoreTests.Models
                 Assert.NotNull(originalPiece);
                 Assert.NotNull(clonedPiece);
                 Assert.Equal(originalPiece, clonedPiece);
-                PrvSwitchColor(originalPiece);
+                PrvChangePieceColor(originalPiece);
                 Assert.NotEqual(originalPiece, clonedPiece);
             }
             else
@@ -146,12 +152,9 @@ namespace FunChess.XUnitTests.CoreTests.Models
             }
         }
 
-        private void PrvSwitchColor(Piece originalPiece)
+        private void PrvChangePieceColor(Piece originalPiece)
         {
-            if (originalPiece.Color == PieceColor.White)
-                originalPiece.Color = PieceColor.Black;
-            else
-                originalPiece.Color = PieceColor.White;
+            originalPiece.Color = testHelper.SwitchColor(originalPiece.Color);
         }
         #endregion
         #endregion

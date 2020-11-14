@@ -2,6 +2,8 @@
 using FunChess.Core.Factory;
 using FunChess.Core.Models;
 using FunChess.Core.Models.Pieces;
+using FunChess.XUnitTests.TestTools.Factory;
+using FunChess.XUnitTests.TestTools.Helpers;
 using System.Collections.Generic;
 using Xunit;
 
@@ -10,10 +12,41 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
     public class PawnTests
     {
         private readonly CoreFactory core;
+        private readonly TestFactory test;
+
+        private readonly TestHelper testHelper;
 
         public PawnTests()
         {
             core = Beyond.Core;
+            test = TestVortex.Test;
+            testHelper = test.CreateTestHelper();
+        }
+
+        [Theory]
+        [InlineData(PieceColor.White)]
+        [InlineData(PieceColor.Black)]
+        public void IsPawnPermitedPositionsBeenCalculatedCorrectlyWhenPawnIsBeenBlocked(PieceColor color)
+        {
+            // Arrange
+            Board board = core.CreateEmptyBoard();
+            Pawn pawn = core.CreatePawn(color);
+            Position pawnPosition = core.CreatePosition(3, 2);
+            board.PutAt(pawn, pawnPosition);
+            Knight knight = core.CreateKnight(testHelper.SwitchColor(color));
+            int increment = (color == PieceColor.White) ? +1 : -1;
+            Position knightPosition = core.CreatePosition(pawnPosition.Line + increment, pawnPosition.Column);
+            board.PutAt(knight, knightPosition);
+
+            // Act
+            bool[,] pawnPermitedMatrix = pawn.GetPermissionMatrix(board);
+            int amountOfPermitedPositions = pawn.CountPermitedPositions();
+            HashSet<Position> pawnAllowedSet = pawn.GetAllowedSet();
+
+            // Assert
+            Assert.NotNull(pawnPermitedMatrix);
+            Assert.Equal(0, amountOfPermitedPositions);
+            Assert.Empty(pawnAllowedSet);
         }
 
         [Theory]
