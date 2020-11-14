@@ -20,7 +20,7 @@ namespace FunChess.XUnitTests.CoreTests.Models
             Piece piece = core.CreateKing(PieceColor.White);
             Board emptyBoard = core.CreateEmptyBoard();
 
-            emptyBoard.PutAt(piece, 0, 1);
+            emptyBoard.PutAt(piece, core.CreatePosition(0, 1));
 
             Assert.Equal(piece, emptyBoard.Grid[0, 1]);
         }
@@ -28,11 +28,12 @@ namespace FunChess.XUnitTests.CoreTests.Models
         [Fact]
         public void CanWeTakePiecesAtBoard()
         {
-            Board boardWithOneKing = core.CreteBoardWithOneKingAt(2, 3);
-            Piece piece = boardWithOneKing.TakeAt(2, 3);
+            Position position = core.CreatePosition(2, 3);
+            Board boardWithOneKing = core.CreateBoardWithOneKingAt(position);
+            Piece piece = boardWithOneKing.TakeAt(position);
 
             Assert.NotNull(piece);
-            Assert.Null(boardWithOneKing.Grid[2, 3]);
+            Assert.Null(boardWithOneKing.At(position));
         }
     }
 }

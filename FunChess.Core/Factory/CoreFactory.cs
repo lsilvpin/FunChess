@@ -15,7 +15,7 @@ namespace FunChess.Core.Factory
 
         public King CreateKing(PieceColor color)
         {
-            return new King(color);
+            return new King(this, color);
         }
 
         public Brain CreateBrain()
@@ -29,22 +29,22 @@ namespace FunChess.Core.Factory
 
         public Queen CreateQueen(PieceColor color)
         {
-            return new Queen(color);
+            return new Queen(this, color);
         }
 
-        public Coordinate CreateCoordinate(int line, int column)
+        public Position CreatePosition(int line, int column)
         {
-            return new Coordinate(line, column);
+            return new Position(line, column);
         }
 
         public Bishop CreateBishop(PieceColor color)
         {
-            return new Bishop(color);
+            return new Bishop(this, color);
         }
 
         public Knight CreateKnight(PieceColor color)
         {
-            return new Knight(color);
+            return new Knight(this, color);
         }
 
         public Board CreateEmptyBoard()
@@ -54,20 +54,20 @@ namespace FunChess.Core.Factory
 
         public Rook CreateRook(PieceColor color)
         {
-            return new Rook(color);
+            return new Rook(this, color);
         }
 
-        public Board CreteBoardWithOneKingAt(int line, int column)
+        public Board CreateBoardWithOneKingAt(Position position)
         {
             Board board = CreateEmptyBoard();
             Piece king = CreateKing(PieceColor.White);
-            board.PutAt(king, line, column);
+            board.PutAt(king, position);
             return board;
         }
 
         public Pawn CreatePawn(PieceColor color)
         {
-            return new Pawn(color);
+            return new Pawn(this, color);
         }
     }
 }

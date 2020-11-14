@@ -24,14 +24,14 @@ namespace FunChess.XUnitTests.CoreTests.BusinessLogicTests
         [InlineData("a9")]
         public void IsSquareNamesBeenConvertedToCoordinatesCorrectly(string squareName)
         {
-            Coordinate coordinate = brain.ConvertSquareNameToCoordinate(squareName);
+            Position coordinate = brain.ConvertSquareNameToCoordinate(squareName);
 
             if (squareName == "b2")
-                Assert.Equal(core.CreateCoordinate(1, 1), coordinate);
+                Assert.Equal(core.CreatePosition(1, 1), coordinate);
             else if (squareName == "e5")
-                Assert.Equal(core.CreateCoordinate(4, 4), coordinate);
+                Assert.Equal(core.CreatePosition(4, 4), coordinate);
             else if (squareName == "f7")
-                Assert.Equal(core.CreateCoordinate(5, 6), coordinate);
+                Assert.Equal(core.CreatePosition(5, 6), coordinate);
             else
                 Assert.Null(coordinate);
         }

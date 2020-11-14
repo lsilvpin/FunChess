@@ -19,7 +19,7 @@ namespace FunChess.XUnitTests.CoreTests.Factory
         [Fact]
         public void IsCoordinatesBeenCreated()
         {
-            Coordinate coordinate = core.CreateCoordinate(2, 3);
+            Position coordinate = core.CreatePosition(2, 3);
 
             Assert.NotNull(coordinate);
         }

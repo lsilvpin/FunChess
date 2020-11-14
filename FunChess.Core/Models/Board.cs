@@ -11,16 +11,22 @@ namespace FunChess.Core.Models
             Grid = new Piece[8, 8];
         }
 
-        public void PutAt(Piece piece, int line, int column)
+        public void PutAt(Piece piece, Position position)
         {
-            Grid[line, column] = piece;
+            Grid[position.Line, position.Column] = piece;
+            piece.Position = position;
         }
 
-        public Piece TakeAt(int line, int column)
+        public Piece TakeAt(Position position)
         {
-            Piece piece = Grid[line, column];
-            Grid[line, column] = null;
+            Piece piece = Grid[position.Line, position.Column];
+            Grid[position.Line, position.Column] = null;
             return piece;
+        }
+
+        public Piece At(Position position)
+        {
+            return Grid[position.Line, position.Column];
         }
     }
 }

@@ -14,7 +14,7 @@ namespace FunChess.Core.BusinessLogic
             this.core = core;
         }
 
-        public Coordinate ConvertSquareNameToCoordinate(string squareName)
+        public Position ConvertSquareNameToCoordinate(string squareName)
         {
             Regex regex = new Regex("([a-h])([1-8])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             Match match = regex.Match(squareName);
@@ -23,7 +23,7 @@ namespace FunChess.Core.BusinessLogic
             {
                 int line = PrvConvertLetterToLine(match.Groups[1].Value.ToLower());
                 int column = PrvConvertNumberToColumn(match.Groups[2].Value);
-                return core.CreateCoordinate(line, column);
+                return core.CreatePosition(line, column);
             }
 
             return null;

@@ -2,12 +2,12 @@
 
 namespace FunChess.Core.Models
 {
-    public class Coordinate
+    public class Position
     {
         public int Line { get; set; }
         public int Column { get; set; }
 
-        public Coordinate(int line, int column)
+        public Position(int line, int column)
         {
             Line = line;
             Column = column;
@@ -15,7 +15,7 @@ namespace FunChess.Core.Models
 
         public override bool Equals(object obj)
         {
-            return obj is Coordinate coordinate &&
+            return obj is Position coordinate &&
                    Line == coordinate.Line &&
                    Column == coordinate.Column;
         }
