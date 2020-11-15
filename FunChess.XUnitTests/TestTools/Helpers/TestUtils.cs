@@ -2,9 +2,9 @@
 
 namespace FunChess.XUnitTests.TestTools.Helpers
 {
-    public class TestHelper
+    public class TestUtils
     {
-        public TestHelper()
+        public TestUtils()
         {
         }
 

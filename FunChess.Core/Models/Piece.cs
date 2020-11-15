@@ -73,5 +73,10 @@ namespace FunChess.Core.Models
         {
             return HashCode.Combine(Color);
         }
+
+        protected void ApprovePosition(bool[,] permissionMatrix, Position position)
+        {
+            permissionMatrix[position.Line, position.Column] = true;
+        }
     }
 }

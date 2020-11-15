@@ -40,11 +40,11 @@ namespace FunChess.Core.Models.Pieces
                 int permitedLine = enPassantLine + increment;
                 if (board.EnPassant.Side == EnPassantSide.Left)
                 {
-                    PrvApprovePosition(permissionMatrix, core.CreatePosition(permitedLine, Position.Column - 1));
+                    ApprovePosition(permissionMatrix, core.CreatePosition(permitedLine, Position.Column - 1));
                 }
                 else // EnPassantSide.Right
                 {
-                    PrvApprovePosition(permissionMatrix, core.CreatePosition(permitedLine, Position.Column + 1));
+                    ApprovePosition(permissionMatrix, core.CreatePosition(permitedLine, Position.Column + 1));
                 }
             }
         }
@@ -60,7 +60,7 @@ namespace FunChess.Core.Models.Pieces
 
             if (PrvIsInitialtLine(Position.Line, initialLine) && PrvIsEmptySquare(grid, position))
             {
-                PrvApprovePosition(permissionMatrix, position);
+                ApprovePosition(permissionMatrix, position);
             }
         }
 
@@ -75,7 +75,7 @@ namespace FunChess.Core.Models.Pieces
 
             if (PrvIsInsideLimits(position.Column) && PrvIsThereAnyFoeAt(grid, position))
             {
-                PrvApprovePosition(permissionMatrix, position);
+                ApprovePosition(permissionMatrix, position);
             }
         }
 
@@ -85,7 +85,7 @@ namespace FunChess.Core.Models.Pieces
 
             if (PrvIsInsideLimits(position.Column) && PrvIsThereAnyFoeAt(grid, position))
             {
-                PrvApprovePosition(permissionMatrix, position);
+                ApprovePosition(permissionMatrix, position);
             }
         }
 
@@ -101,18 +101,13 @@ namespace FunChess.Core.Models.Pieces
 
             if (PrvIsInsideLimits(position.Line) && PrvIsEmptySquare(grid, position))
             {
-                PrvApprovePosition(permissionMatrix, position);
+                ApprovePosition(permissionMatrix, position);
             }
         }
 
         private bool PrvIsEmptySquare(Piece[,] grid, Position position)
         {
             return grid[position.Line, position.Column] == null;
-        }
-
-        private void PrvApprovePosition(bool[,] permissionMatrix, Position position)
-        {
-            permissionMatrix[position.Line, position.Column] = true;
         }
 
         private bool PrvIsInsideLimits(int coordinate)

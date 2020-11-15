@@ -16,7 +16,7 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
         private readonly Board board;
         private readonly Pawn pawn;
 
-        private readonly TestHelper testHelper;
+        private readonly TestUtils testHelper;
 
         public PawnTests()
         {

@@ -14,7 +14,7 @@ namespace FunChess.XUnitTests.CoreTests.Models
     {
         private readonly CoreFactory core;
         private readonly TestFactory test;
-        private readonly TestHelper testHelper;
+        private readonly TestUtils testHelper;
 
         public BoardTests()
         {

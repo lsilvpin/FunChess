@@ -6,9 +6,9 @@ namespace FunChess.XUnitTests.TestTools.Factory
     {
         public TestFactory() { }
 
-        public TestHelper CreateTestHelper()
+        public TestUtils CreateTestHelper()
         {
-            return new TestHelper();
+            return new TestUtils();
         }
     }
 }
