@@ -12,6 +12,7 @@ namespace FunChess.Core.Models
         private readonly CoreFactory core;
 
         public Piece[,] Grid { get; set; }
+        public EnPassant EnPassant { get; set; }
 
         public Board() { }
         public Board(CoreFactory core)

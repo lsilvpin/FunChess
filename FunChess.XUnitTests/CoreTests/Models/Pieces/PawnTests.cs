@@ -13,6 +13,8 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
     {
         private readonly CoreFactory core;
         private readonly TestFactory test;
+        private readonly Board board;
+        private readonly Pawn pawn;
 
         private readonly TestHelper testHelper;
 
@@ -21,6 +23,38 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
             core = Beyond.Core;
             test = TestVortex.Test;
             testHelper = test.CreateTestHelper();
+            board = core.CreateEmptyBoard();
+            pawn = core.CreatePawn(PieceColor.White);
+        }
+
+        [Theory]
+        [InlineData(PieceColor.White)]
+        [InlineData(PieceColor.Black)]
+        public void IsPawnPermitedPositionsBeenCalculatedCorrectlyWhenPawnHasTheOportunityToCaptureFoeByEnPassant(PieceColor color)
+        {
+            // Arrange
+            int enPassantLine = (color == PieceColor.White) ? 4 : 3;
+            int increment = (color == PieceColor.White) ? +1 : -1;
+            pawn.Color = color;
+            Position position = core.CreatePosition(enPassantLine, 5);
+            board.PutAt(pawn, position);
+            Pawn enemyPawn = core.CreatePawn(testHelper.SwitchColor(color));
+            Position enemyPosition = core.CreatePosition(enPassantLine, 4);
+            board.PutAt(enemyPawn, enemyPosition);
+            board.EnPassant = core.CreateEnPassant(EnPassantSide.Left);
+
+            // Act
+            bool[,] pawnPermissionMatrix = pawn.GetPermissionMatrix(board);
+            int amountOfPermitedPositions = pawn.CountPermitedPositions();
+            HashSet<Position> pawnAllowedSet = pawn.GetAllowedSet();
+
+            // Assert
+            Assert.NotNull(pawnPermissionMatrix);
+            Assert.Equal(2, amountOfPermitedPositions);
+            Assert.NotNull(pawnAllowedSet);
+            Assert.Equal(2, pawnAllowedSet.Count);
+            Assert.Contains(core.CreatePosition(enPassantLine + increment, 5), pawnAllowedSet);
+            Assert.Contains(core.CreatePosition(enPassantLine + increment, 4), pawnAllowedSet);
         }
 
         [Theory]
@@ -29,8 +63,7 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
         public void IsPawnPermitedPositionsBeenCalculatedCorrectlyWhenPawnIsThreatningEnemyPieces(PieceColor color)
         {
             // Arrange
-            Board board = core.CreateEmptyBoard();
-            Pawn pawn = core.CreatePawn(color);
+            pawn.Color = color;
             Position pawnPosition = core.CreatePosition(3, 3);
             Rook rook = core.CreateRook(testHelper.SwitchColor(color));
             int increment = (color == PieceColor.White) ? +1 : -1;
@@ -66,8 +99,7 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
         public void IsPawnPermitedPositionsBeenCalculatedCorrectlyWhenPawnIsBeenBlocked(PieceColor color)
         {
             // Arrange
-            Board board = core.CreateEmptyBoard();
-            Pawn pawn = core.CreatePawn(color);
+            pawn.Color = color;
             Position pawnPosition = core.CreatePosition(3, 2);
             board.PutAt(pawn, pawnPosition);
             Knight knight = core.CreateKnight(testHelper.SwitchColor(color));
@@ -92,8 +124,8 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
         public void IsPawnPermitedPositionsBeenCalculatedCorrectlyWhenPawnIsAtInitialLineWithouAnyBlockOrThreatningFoe(PieceColor color)
         {
             // Arrange
-            Board board = core.CreateEmptyBoard();
-            Pawn whitePawn = core.CreatePawn(color);
+            pawn.Color = color;
+            Pawn whitePawn = pawn;
             int increment = (color == PieceColor.White) ? +1 : -1;
             int initialLine = (color == PieceColor.White) ? 1 : 6;
             Position position = core.CreatePosition(initialLine, 2);
@@ -119,8 +151,7 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
         public void IsPawnAllowedSetBeenConstructedCorrectlyWhenPawnIsInMidleOfBoardWithoutAnyBlockOrThreatningFoe(PieceColor color)
         {
             // Arrange
-            Board board = core.CreateEmptyBoard();
-            Pawn pawn = core.CreatePawn(color);
+            pawn.Color = color;
             Position initialPosition = core.CreatePosition(3, 3);
             board.PutAt(pawn, initialPosition);
             int increment = (color == PieceColor.White) ? +1 : -1;

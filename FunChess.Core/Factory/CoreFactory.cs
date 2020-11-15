@@ -3,6 +3,7 @@ using FunChess.Core.Enums;
 using FunChess.Core.Models;
 using FunChess.Core.Models.Pieces;
 using FunChess.Core.Tools;
+using System;
 
 namespace FunChess.Core.Factory
 {
@@ -69,6 +70,11 @@ namespace FunChess.Core.Factory
             Piece king = CreateKing(PieceColor.White);
             board.PutAt(king, position);
             return board;
+        }
+
+        public EnPassant CreateEnPassant(EnPassantSide side)
+        {
+            return new EnPassant(side);
         }
 
         public Pawn CreatePawn(PieceColor color)

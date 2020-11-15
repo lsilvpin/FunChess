@@ -20,17 +20,40 @@ namespace FunChess.Core.Models.Pieces
 
             int increment = (Color == PieceColor.White) ? +1 : -1;
             int initialLine = (Color == PieceColor.White) ? 1 : 6;
+            int enPassantLine = (Color == PieceColor.White) ? 4 : 3;
 
             PrvValidateNextSquare(increment, board.Grid, permissionMatrix);
             PrvValidateThePresenceOfLeftFoe(increment, board.Grid, permissionMatrix);
             PrvValidateThePresenceOfRightFoe(increment, board.Grid, permissionMatrix);
             PrvValidateSecondNextSquareInCasePawnIsAtInitialLine(increment, initialLine, board.Grid, permissionMatrix);
+            PrvValidateEnPassant(board, enPassantLine, increment, permissionMatrix);
 
             return permissionMatrix;
         }
 
         #region Private helpers
         #region GetPermissionMatrix helpers
+        private void PrvValidateEnPassant(Board board, int enPassantLine, int increment, bool[,] permissionMatrix)
+        {
+            if (PrvIsEnPassant(board, enPassantLine))
+            {
+                int permitedLine = enPassantLine + increment;
+                if (board.EnPassant.Side == EnPassantSide.Left)
+                {
+                    PrvApprovePosition(permissionMatrix, core.CreatePosition(permitedLine, Position.Column - 1));
+                }
+                else // EnPassantSide.Right
+                {
+                    PrvApprovePosition(permissionMatrix, core.CreatePosition(permitedLine, Position.Column + 1));
+                }
+            }
+        }
+
+        private bool PrvIsEnPassant(Board board, int enPassantLine)
+        {
+            return Position.Line == enPassantLine && board.EnPassant != null;
+        }
+
         private void PrvValidateSecondNextSquareInCasePawnIsAtInitialLine(int increment, int initialLine, Piece[,] grid, bool[,] permissionMatrix)
         {
             Position position = core.CreatePosition(Position.Line + 2 * increment, Position.Column);
