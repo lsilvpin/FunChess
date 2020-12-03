@@ -20,6 +20,29 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
         }
 
         [Fact]
+        public void IsAllowedSetBeenCalculatedCorrectlyWhenBishopIsThreatening()
+        {
+            // Arrange
+            Board board = core.CreateEmptyBoard();
+            Bishop whiteBishop = core.CreateBishop(PieceColor.White);
+            Position bishopPosition = core.CreatePosition(2, 2);
+            board.PutAt(whiteBishop, bishopPosition);
+            Pawn blackPawn = core.CreatePawn(PieceColor.Black);
+            Position pawnPosition = core.CreatePosition(4, 4);
+            board.PutAt(blackPawn, pawnPosition);
+
+            // Act
+            bool[,] permissionMatrix = whiteBishop.GetPermissionMatrix(board);
+            int amountOfAllowedPositions = whiteBishop.CountPermitedPositions();
+            HashSet<Position> permitedPositions = whiteBishop.GetAllowedSet();
+
+            // Assert
+            Assert.NotNull(permissionMatrix);
+            Assert.Equal(8, amountOfAllowedPositions);
+            PrvAssertPositionsIsOkInCaseBishopIsThreatening(permitedPositions);
+        }
+
+        [Fact]
         public void IsAllowedSetBeenCalculatedCorrectlyWhenBishopIsBlocked()
         {
             // Arrange
@@ -67,6 +90,18 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
         }
 
         #region Private helpers
+        private void PrvAssertPositionsIsOkInCaseBishopIsThreatening(HashSet<Position> permitedPositions)
+        {
+            Assert.Contains(core.CreatePosition(3, 3), permitedPositions);
+            Assert.Contains(core.CreatePosition(4, 4), permitedPositions);
+            Assert.Contains(core.CreatePosition(3, 1), permitedPositions);
+            Assert.Contains(core.CreatePosition(4, 0), permitedPositions);
+            Assert.Contains(core.CreatePosition(3, 1), permitedPositions);
+            Assert.Contains(core.CreatePosition(4, 0), permitedPositions);
+            Assert.Contains(core.CreatePosition(1, 1), permitedPositions);
+            Assert.Contains(core.CreatePosition(0, 0), permitedPositions);
+        }
+
         private void PrvAssertPositionsIsOkInCaseBishopIsBlocked(HashSet<Position> bishopAllowedSet)
         {
             Assert.Contains(core.CreatePosition(0, 0), bishopAllowedSet);

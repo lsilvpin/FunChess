@@ -57,7 +57,7 @@ namespace FunChess.Core.Models
             return allowedSet;
         }
 
-        public void ValidateIfPositionIsInsideLimits()
+        public void AssertPositionIsInsideLimits()
         {
             if (Position.Line < 0 || Position.Line > 7 || Position.Column < 0 || Position.Column > 7)
                 throw new PieceOutOfBoardException(GetType(), Color);

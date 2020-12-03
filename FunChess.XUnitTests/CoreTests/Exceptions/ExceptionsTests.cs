@@ -44,7 +44,7 @@ namespace FunChess.XUnitTests.CoreTests.Exceptions
             bishop.Position = position;
 
             // Act
-            PieceOutOfBoardException outOfBoardException = Assert.Throws<PieceOutOfBoardException>(bishop.ValidateIfPositionIsInsideLimits);
+            PieceOutOfBoardException outOfBoardException = Assert.Throws<PieceOutOfBoardException>(bishop.AssertPositionIsInsideLimits);
 
             // Assert
             Assert.Equal("The White Bishop I'm working with is out of board.", outOfBoardException.Message);
