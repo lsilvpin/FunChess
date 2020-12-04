@@ -50,7 +50,8 @@ namespace FunChess.Core.Models
                 4 => "E",
                 5 => "F",
                 6 => "G",
-                _ => "H"
+                7 => "H",
+                _ => "Erro"
             };
         }
         #endregion

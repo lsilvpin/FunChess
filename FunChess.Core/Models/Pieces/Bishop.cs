@@ -1,5 +1,7 @@
 ﻿using FunChess.Core.Enums;
 using FunChess.Core.Factory;
+using FunChess.Core.Tools;
+using System;
 
 namespace FunChess.Core.Models.Pieces
 {
@@ -11,124 +13,78 @@ namespace FunChess.Core.Models.Pieces
         {
         }
 
+
         public override bool[,] GetPermissionMatrix(Board board)
         {
-            PrvValidateNorthEast(board);
-            PrvValidateNorthWest(board);
-            PrvValidateSouthWest(board);
-            PrvValidateSouthEast(board);
+            PrvCheckDirectionIntoOrientation(board, Orientation.NorthEast);
+            PrvCheckDirectionIntoOrientation(board, Orientation.SouthEast);
+            PrvCheckDirectionIntoOrientation(board, Orientation.SouthWest);
+            PrvCheckDirectionIntoOrientation(board, Orientation.NorthWest);
 
             return permissionMatrix;
         }
 
+
         #region Private helpers
-        private void PrvValidateSouthEast(Board board)
+        private void PrvCheckDirectionIntoOrientation(Board board, Orientation orientation)
         {
-            int i = 0;
+            Position position;
             Piece piece;
-            Position position = core.CreatePosition(Position.Line - i, Position.Column + i);
-            while (1 <= position.Line && position.Column <= 6)
+            bool isBreak;
+
+            for (int i = 1; i < 8; i++)
             {
-                i++;
-                PrvMovePositionOneStep(position, -i, +i);
-                piece = board.LookAt(position);
-                if (PrvIsBishopBlocked(piece))
-                    break;
-                if (PrvIsFreeWay(piece))
-                    ApprovePosition(permissionMatrix, position);
-                if (PrvIsBishopThreatening(piece))
+                position = PrvGetCheckingPosition(orientation, i);
+
+                if (Check.IsInsideLimits(position))
                 {
-                    ApprovePosition(permissionMatrix, position);
+                    piece = board.LookAt(position);
+                    isBreak = PrvValidatePiece(piece, position);
+                    if (isBreak) { break; }
+                }
+                else
+                {
                     break;
                 }
             }
         }
 
-        private void PrvValidateSouthWest(Board board)
+        private bool PrvValidatePiece(Piece piece, Position position)
         {
-            int i = 0;
-            Piece piece;
-            Position position = core.CreatePosition(Position.Line - i, Position.Column - i);
-            while (1 <= position.Line)
+            if (piece == null)
             {
-                i++;
-                PrvMovePositionOneStep(position, -i, -i);
-                piece = board.LookAt(position);
-                if (PrvIsBishopBlocked(piece))
-                    break;
-                if (PrvIsFreeWay(piece))
-                    ApprovePosition(permissionMatrix, position);
-                if (PrvIsBishopThreatening(piece))
-                {
-                    ApprovePosition(permissionMatrix, position);
-                    break;
-                }
+                permissionMatrix[position.Line, position.Column] = true;
+                return false;
+            }
+            else if (piece.Color != Color)
+            {
+                permissionMatrix[position.Line, position.Column] = true;
+                return true;
+            }
+            else
+            {
+                return true;
             }
         }
 
-        private void PrvValidateNorthWest(Board board)
+        private Position PrvGetCheckingPosition(Orientation orientation, int increment)
         {
-            int i = 0;
-            Piece piece;
-            Position position = core.CreatePosition(Position.Line + i, Position.Column - i);
-            while (position.Line <= 6 && 1 <= position.Column)
+            if (orientation == Orientation.NorthEast)
             {
-                i++;
-                PrvMovePositionOneStep(position, +i, -i);
-                piece = board.LookAt(position);
-                if (PrvIsBishopBlocked(piece))
-                    break;
-                if (PrvIsFreeWay(piece))
-                    ApprovePosition(permissionMatrix, position);
-                if (PrvIsBishopThreatening(piece))
-                {
-                    ApprovePosition(permissionMatrix, position);
-                    break;
-                }
+                return core.CreatePosition(Position.Line + increment, Position.Column + increment);
             }
-        }
-
-        private void PrvValidateNorthEast(Board board)
-        {
-            int i = 0;
-            Piece piece;
-            Position position = core.CreatePosition(Position.Line + i, Position.Column + i);
-            while (position.Line <= 6)
+            else if (orientation == Orientation.SouthEast)
             {
-                i++;
-                PrvMovePositionOneStep(position, +i, +i);
-                piece = board.LookAt(position);
-                if (PrvIsBishopBlocked(piece))
-                    break;
-                if (PrvIsFreeWay(piece))
-                    ApprovePosition(permissionMatrix, position);
-                if (PrvIsBishopThreatening(piece))
-                {
-                    ApprovePosition(permissionMatrix, position);
-                    break;
-                }
+                return core.CreatePosition(Position.Line - increment, Position.Column + increment);
             }
-        }
-
-        private bool PrvIsBishopBlocked(Piece piece)
-        {
-            return piece != null && piece.Color == Color;
-        }
-
-        private bool PrvIsBishopThreatening(Piece piece)
-        {
-            return piece != null;
-        }
-
-        private bool PrvIsFreeWay(Piece piece)
-        {
-            return piece == null;
-        }
-
-        private void PrvMovePositionOneStep(Position position, int a, int b)
-        {
-            position.Line = Position.Line + a;
-            position.Column = Position.Column + b;
+            else if (orientation == Orientation.SouthWest)
+            {
+                return core.CreatePosition(Position.Line - increment, Position.Column - increment);
+            }
+            else
+            {
+                return core.CreatePosition(Position.Line + increment, Position.Column - increment);
+            }
         }
         #endregion
     }
