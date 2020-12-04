@@ -3,7 +3,6 @@ using FunChess.Core.Enums;
 using FunChess.Core.Models;
 using FunChess.Core.Models.Pieces;
 using FunChess.Core.Tools;
-using System;
 
 namespace FunChess.Core.Factory
 {
@@ -13,6 +12,7 @@ namespace FunChess.Core.Factory
 
         public CoreFactory()
         {
+            brain = CreateBrain();
         }
 
         public Cloner CreateCloner()
@@ -36,7 +36,7 @@ namespace FunChess.Core.Factory
 
         public Queen CreateQueen(PieceColor color)
         {
-            return new Queen(this, color);
+            return new Queen(this, color, brain);
         }
 
         public Position CreatePosition(int line, int column)
@@ -46,7 +46,7 @@ namespace FunChess.Core.Factory
 
         public Bishop CreateBishop(PieceColor color)
         {
-            return new Bishop(this, color);
+            return new Bishop(this, color, brain);
         }
 
         public Knight CreateKnight(PieceColor color)
@@ -61,7 +61,7 @@ namespace FunChess.Core.Factory
 
         public Rook CreateRook(PieceColor color)
         {
-            return new Rook(this, color);
+            return new Rook(this, color, brain);
         }
 
         public Board CreateBoardWithOneKingAt(Position position)

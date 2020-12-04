@@ -1,6 +1,6 @@
 ﻿using FunChess.Core.Enums;
 
-namespace FunChess.Core.Models.Pieces
+namespace FunChess.Core.Models.DTOs
 {
     internal class RookPermissionCheckModel
     {
