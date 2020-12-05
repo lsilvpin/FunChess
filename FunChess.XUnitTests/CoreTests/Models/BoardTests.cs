@@ -23,6 +23,7 @@ namespace FunChess.XUnitTests.CoreTests.Models
             testHelper = test.CreateTestHelper();
         }
 
+
         [Fact]
         public void CanWePutPiecesOnBoard()
         {
@@ -58,26 +59,25 @@ namespace FunChess.XUnitTests.CoreTests.Models
         public void CanWeLookPiecesAtBoard()
         {
             // Arrange
-            List<Position> positions = PrvArrangePositions();
-            List<Piece> pieces = PrvArrangePieces();
+            List<Position> positions = ArrangePositions();
+            List<Piece> pieces = ArrangePieces();
             Board board = core.CreateEmptyBoard();
-            PrvArrangeBoard(board, pieces, positions);
+            ArrangeBoard(board, pieces, positions);
 
             // Act
-            List<Piece> clones = PrvLookAtArrangedPositions(board, positions);
+            List<Piece> clones = LookAtArrangedPositions(board, positions);
 
             // Assert
-            PrvAssertAllClonesAreBehavingCorrectly(board, clones, positions);
+            AssertAllClonesAreBehavingCorrectly(board, clones, positions);
         }
 
-        #region Private helpers
-        #region LookAt helpers
-        private void PrvAssertAllClonesAreBehavingCorrectly(Board board, List<Piece> clones, List<Position> positions)
+
+        private void AssertAllClonesAreBehavingCorrectly(Board board, List<Piece> clones, List<Position> positions)
         {
-            Enumerable.Range(0, 7).ToList().ForEach(index => PrvAssertIsOkWhatWeLookingAt(board, clones, positions, index));
+            Enumerable.Range(0, 7).ToList().ForEach(index => AssertIsOkWhatWeLookingAt(board, clones, positions, index));
         }
 
-        private List<Piece> PrvLookAtArrangedPositions(Board board, List<Position> positions)
+        private List<Piece> LookAtArrangedPositions(Board board, List<Position> positions)
         {
             return new List<Piece>()
             {
@@ -91,7 +91,7 @@ namespace FunChess.XUnitTests.CoreTests.Models
             };
         }
 
-        private void PrvArrangeBoard(Board board, List<Piece> pieces, List<Position> positions)
+        private void ArrangeBoard(Board board, List<Piece> pieces, List<Position> positions)
         {
             board.PutAt(pieces[0], positions[0]);
             board.PutAt(pieces[1], positions[1]);
@@ -101,7 +101,7 @@ namespace FunChess.XUnitTests.CoreTests.Models
             board.PutAt(pieces[5], positions[5]);
         }
 
-        private List<Piece> PrvArrangePieces()
+        private List<Piece> ArrangePieces()
         {
             return new List<Piece>()
             {
@@ -114,7 +114,7 @@ namespace FunChess.XUnitTests.CoreTests.Models
             };
         }
 
-        private List<Position> PrvArrangePositions()
+        private List<Position> ArrangePositions()
         {
             return new List<Position>()
             {
@@ -128,7 +128,7 @@ namespace FunChess.XUnitTests.CoreTests.Models
             };
         }
 
-        private void PrvAssertIsOkWhatWeLookingAt(Board board, List<Piece> clones, List<Position> positions, int index)
+        private void AssertIsOkWhatWeLookingAt(Board board, List<Piece> clones, List<Position> positions, int index)
         {
             Position position = positions[index];
             Piece originalPiece = board.Grid[position.Line, position.Column];
@@ -140,7 +140,7 @@ namespace FunChess.XUnitTests.CoreTests.Models
                 Assert.NotNull(originalPiece);
                 Assert.NotNull(clonedPiece);
                 Assert.Equal(originalPiece, clonedPiece);
-                PrvChangePieceColor(originalPiece);
+                ChangePieceColor(originalPiece);
                 Assert.NotEqual(originalPiece, clonedPiece);
             }
             else
@@ -152,11 +152,9 @@ namespace FunChess.XUnitTests.CoreTests.Models
             }
         }
 
-        private void PrvChangePieceColor(Piece originalPiece)
+        private void ChangePieceColor(Piece originalPiece)
         {
             originalPiece.Color = testHelper.SwitchColor(originalPiece.Color);
         }
-        #endregion
-        #endregion
     }
 }

@@ -2,7 +2,6 @@
 using FunChess.Core.Factory;
 using FunChess.Core.Models;
 using FunChess.Core.Models.Pieces;
-using FunChess.XUnitTests.TestTools.Factory;
 using System.Collections.Generic;
 using Xunit;
 
@@ -11,13 +10,12 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
     public class KnightTests
     {
         private readonly CoreFactory core;
-        private readonly TestFactory test;
 
         public KnightTests()
         {
             core = Beyond.Core;
-            test = TestVortex.Test;
         }
+
 
         [Fact]
         public void IsAllowedSetBeenCalculatedCorrectlyWhenKnightIsThreatening()
@@ -39,7 +37,7 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
             // Assert
             Assert.NotNull(permissionMatrix);
             Assert.Equal(8, amountOfPermitedPositions);
-            PrvAssertAllowedSetIsOkWhenKnightIsFreeToMove(allowedSet);
+            AssertAllowedSetIsOkWhenKnightIsFreeToMove(allowedSet);
         }
 
         [Fact]
@@ -62,7 +60,7 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
             // Assert
             Assert.NotNull(permissionMatrix);
             Assert.Equal(7, amountOfPermitedPositions);
-            PrvAssertAllowedSetIsOkWhenKnightIsBlocked(permitedPositions);
+            AssertAllowedSetIsOkWhenKnightIsBlocked(permitedPositions);
         }
 
         [Fact]
@@ -82,17 +80,17 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
             // Assert
             Assert.NotNull(permissionMatrix);
             Assert.Equal(8, amountOfPermitedPositions);
-            PrvAssertAllowedSetIsOkWhenKnightIsFreeToMove(permitedPositions);
+            AssertAllowedSetIsOkWhenKnightIsFreeToMove(permitedPositions);
         }
 
-        #region Private helpers
-        private void PrvAssertAllowedSetIsOkWhenKnightIsFreeToMove(HashSet<Position> permitedPositions)
+
+        private void AssertAllowedSetIsOkWhenKnightIsFreeToMove(HashSet<Position> permitedPositions)
         {
             Assert.Contains(core.CreatePosition(5, 4), permitedPositions);
-            PrvAssertAllowedSetIsOkWhenKnightIsBlocked(permitedPositions);
+            AssertAllowedSetIsOkWhenKnightIsBlocked(permitedPositions);
         }
 
-        private void PrvAssertAllowedSetIsOkWhenKnightIsBlocked(HashSet<Position> permitedPositions)
+        private void AssertAllowedSetIsOkWhenKnightIsBlocked(HashSet<Position> permitedPositions)
         {
             Assert.Contains(core.CreatePosition(4, 1), permitedPositions);
             Assert.Contains(core.CreatePosition(5, 2), permitedPositions);
@@ -102,6 +100,5 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
             Assert.Contains(core.CreatePosition(1, 2), permitedPositions);
             Assert.Contains(core.CreatePosition(2, 1), permitedPositions);
         }
-        #endregion
     }
 }

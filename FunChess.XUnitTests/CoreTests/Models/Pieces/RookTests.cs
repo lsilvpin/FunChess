@@ -2,7 +2,6 @@
 using FunChess.Core.Factory;
 using FunChess.Core.Models;
 using FunChess.Core.Models.Pieces;
-using FunChess.XUnitTests.TestTools.Factory;
 using System.Collections.Generic;
 using Xunit;
 
@@ -11,13 +10,12 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
     public class RookTests
     {
         private readonly CoreFactory core;
-        private readonly TestFactory test;
 
         public RookTests()
         {
             core = Beyond.Core;
-            test = TestVortex.Test;
         }
+
 
         [Fact]
         public void IsAllowedSetBeenCalculatedCorrectlyWhenRookIsBlocked()
@@ -39,7 +37,7 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
             // Assert
             Assert.NotNull(permissionMatrix);
             Assert.Equal(11, amountOfPermitedPositions);
-            PrvAssertAllowedSetIsOkWhenRookIsBlocked(allowedSet);
+            AssertAllowedSetIsOkWhenRookIsBlocked(allowedSet);
         }
 
         [Fact]
@@ -62,7 +60,7 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
             // Assert
             Assert.NotNull(permissionMatrix);
             Assert.Equal(12, amountOfPermitedPositions);
-            PrvAssertAllowedSetIsOkWhenRookIsThreatening(allowedSet);
+            AssertAllowedSetIsOkWhenRookIsThreatening(allowedSet);
         }        
 
         [Fact]
@@ -82,23 +80,24 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
             // Assert
             Assert.NotNull(permissionMatrix);
             Assert.Equal(14, amountOfPermitedPositions);
-            PrvAssertAllowedSetIsOkWhenRookIsFreeToMove(allowedSet);
+            AssertAllowedSetIsOkWhenRookIsFreeToMove(allowedSet);
         }
 
-        private void PrvAssertAllowedSetIsOkWhenRookIsFreeToMove(HashSet<Position> allowedSet)
+
+        private void AssertAllowedSetIsOkWhenRookIsFreeToMove(HashSet<Position> allowedSet)
         {
-            PrvAssertAllowedSetIsOkWhenRookIsThreatening(allowedSet);
+            AssertAllowedSetIsOkWhenRookIsThreatening(allowedSet);
             Assert.Contains(core.CreatePosition(6, 2), allowedSet);
             Assert.Contains(core.CreatePosition(7, 2), allowedSet);
         }
 
-        private void PrvAssertAllowedSetIsOkWhenRookIsThreatening(HashSet<Position> allowedSet)
+        private void AssertAllowedSetIsOkWhenRookIsThreatening(HashSet<Position> allowedSet)
         {
-            PrvAssertAllowedSetIsOkWhenRookIsBlocked(allowedSet);
+            AssertAllowedSetIsOkWhenRookIsBlocked(allowedSet);
             Assert.Contains(core.CreatePosition(5, 2), allowedSet);
         }
 
-        private void PrvAssertAllowedSetIsOkWhenRookIsBlocked(HashSet<Position> allowedSet)
+        private void AssertAllowedSetIsOkWhenRookIsBlocked(HashSet<Position> allowedSet)
         {
             Assert.Contains(core.CreatePosition(2, 0), allowedSet);
             Assert.Contains(core.CreatePosition(2, 1), allowedSet);

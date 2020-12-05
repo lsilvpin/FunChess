@@ -15,6 +15,7 @@ namespace FunChess.Core.Factory
             brain = CreateBrain();
         }
 
+
         public Cloner CreateCloner()
         {
             return new Cloner(this);

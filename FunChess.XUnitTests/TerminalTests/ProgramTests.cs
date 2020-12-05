@@ -1,5 +1,4 @@
-﻿using FunChess.Core.Factory;
-using FunChess.Terminal;
+﻿using FunChess.Terminal;
 using System;
 using Xunit;
 
@@ -7,12 +6,10 @@ namespace FunChess.XUnitTests.TerminalTests
 {
     public class ProgramTests
     {
-        private readonly CoreFactory core;
-
         public ProgramTests()
         {
-            core = Beyond.Core;
         }
+
 
         [Fact]
         public void MainTest()

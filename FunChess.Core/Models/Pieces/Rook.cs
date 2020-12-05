@@ -30,9 +30,5 @@ namespace FunChess.Core.Models.Pieces
         {
             return "Ro";
         }
-
-        #region Private helpers
-
-        #endregion
     }
 }

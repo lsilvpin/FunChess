@@ -18,6 +18,7 @@ namespace FunChess.XUnitTests.CoreTests.Tools
             cloner = core.CreateCloner();
         }
 
+
         [Fact]
         public void IsClonerWorkingCorrectly()
         {

@@ -27,6 +27,7 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
             pawn = core.CreatePawn(PieceColor.White);
         }
 
+
         [Theory]
         [InlineData(PieceColor.White)]
         [InlineData(PieceColor.Black)]

@@ -14,6 +14,7 @@ namespace FunChess.Core.Models
             Column = column;
         }
 
+
         public override bool Equals(object obj)
         {
             return obj is Position coordinate &&
@@ -33,13 +34,13 @@ namespace FunChess.Core.Models
 
         public string ConvertToChessSymbology(Position position)
         {
-            string letter = PrvConvertToLetter(position.Column);
+            string letter = ConvertToLetter(position.Column);
             string digit = (position.Line + 1).ToString();
             return string.Concat(letter, digit);
         }
 
-        #region Private helpers
-        private string PrvConvertToLetter(int column)
+
+        private string ConvertToLetter(int column)
         {
             return column switch
             {
@@ -54,6 +55,5 @@ namespace FunChess.Core.Models
                 _ => "Erro"
             };
         }
-        #endregion
     }
 }

@@ -15,6 +15,7 @@ namespace FunChess.Core.Models.Pieces
             this.brain = brain;
         }
 
+
         public override bool[,] GetPermissionMatrix(Board board)
         {
             brain.CheckPositionsToCalculateRookPermissionMatrix(board, Orientation.North, Position, permissionMatrix, Color);

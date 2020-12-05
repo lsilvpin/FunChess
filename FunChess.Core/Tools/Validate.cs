@@ -1,6 +1,5 @@
 ﻿using FunChess.Core.Exceptions;
 using FunChess.Core.Models;
-using System;
 
 namespace FunChess.Core.Tools
 {

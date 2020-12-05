@@ -1,8 +1,6 @@
 ﻿using FunChess.Core.BusinessLogic;
 using FunChess.Core.Enums;
 using FunChess.Core.Factory;
-using System;
-using System.Collections.Generic;
 
 namespace FunChess.Core.Models.Pieces
 {
@@ -16,6 +14,7 @@ namespace FunChess.Core.Models.Pieces
         {
             this.brain = brain;
         }
+
 
         public override bool[,] GetPermissionMatrix(Board board)
         {

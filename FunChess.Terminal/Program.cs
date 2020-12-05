@@ -1,6 +1,5 @@
 ﻿using FunChess.Core.Models;
 using FunChess.Core.Tools;
-using System;
 
 namespace FunChess.Terminal
 {

@@ -17,6 +17,7 @@ namespace FunChess.XUnitTests.CoreTests.Factory
             core = Beyond.Core;
         }
 
+
         [Fact]
         public void IsClonerBeenCreated()
         {
@@ -44,7 +45,7 @@ namespace FunChess.XUnitTests.CoreTests.Factory
         [Fact]
         public void IsPiecesBeenCreated()
         {
-            List<Piece> pieces = PrvCreatePieces();
+            List<Piece> pieces = CreatePieces();
 
             Assert.Equal(12, pieces.Count);
         }
@@ -57,9 +58,8 @@ namespace FunChess.XUnitTests.CoreTests.Factory
             Assert.NotNull(board);
         }
 
-        #region Private helpers
 
-        private List<Piece> PrvCreatePieces()
+        private List<Piece> CreatePieces()
         {
             return new List<Piece>
             {
@@ -77,7 +77,5 @@ namespace FunChess.XUnitTests.CoreTests.Factory
                 core.CreatePawn(PieceColor.Black)
             };
         }
-
-        #endregion
     }
 }

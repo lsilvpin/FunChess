@@ -1,7 +1,6 @@
 ﻿using FunChess.Core.Enums;
 using FunChess.Core.Factory;
 using FunChess.Core.Tools;
-using System;
 
 namespace FunChess.Core.Models.Pieces
 {
@@ -12,6 +11,7 @@ namespace FunChess.Core.Models.Pieces
             : base(core, pieceColor)
         {
         }
+
 
         public override bool[,] GetPermissionMatrix(Board board)
         {
@@ -34,7 +34,7 @@ namespace FunChess.Core.Models.Pieces
             return "Ki";
         }
 
-        #region Private helpers
+
         private void StepRight(Board board, Position position)
         {
             StepRight(position);
@@ -110,6 +110,5 @@ namespace FunChess.Core.Models.Pieces
         {
             permissionMatrix[position.Line, position.Column] = true;
         }
-        #endregion
     }
 }

@@ -16,6 +16,7 @@ namespace FunChess.XUnitTests.CoreTests.BusinessLogic
             brain = core.CreateBrain();
         }
 
+
         [Theory]
         [InlineData("b2")]
         [InlineData("e5")]

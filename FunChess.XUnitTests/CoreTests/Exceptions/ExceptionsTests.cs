@@ -16,6 +16,7 @@ namespace FunChess.XUnitTests.CoreTests.Exceptions
             core = Beyond.Core;
         }
 
+
         [Fact]
         public void IsErrorThereIsNoRoomForYourPieceWorkingCorrectly()
         {

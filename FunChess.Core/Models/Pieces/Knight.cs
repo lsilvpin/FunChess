@@ -16,10 +16,11 @@ namespace FunChess.Core.Models.Pieces
         {
         }
 
+
         public override bool[,] GetPermissionMatrix(Board board)
         {
-            PrvCheckHorizontally(permissionMatrix, board);
-            PrvCheckVertically(permissionMatrix, board);
+            CheckHorizontally(permissionMatrix, board);
+            CheckVertically(permissionMatrix, board);
 
             return permissionMatrix;
         }
@@ -29,48 +30,48 @@ namespace FunChess.Core.Models.Pieces
             return "Kn";
         }
 
-        #region Private helpers
-        private void PrvCheckVertically(bool[,] permissionMatrix, Board board)
+
+        private void CheckVertically(bool[,] permissionMatrix, Board board)
         {
             int line = currentPosition.Line + one;
             int column = currentPosition.Column + two;
 
-            PrvUpdatePermissionMatrix(permissionMatrix, line, column, board);
+            UpdatePermissionMatrix(permissionMatrix, line, column, board);
 
             column = currentPosition.Column - two;
 
-            PrvUpdatePermissionMatrix(permissionMatrix, line, column, board);
+            UpdatePermissionMatrix(permissionMatrix, line, column, board);
 
             line = currentPosition.Line - one;
 
-            PrvUpdatePermissionMatrix(permissionMatrix, line, column, board);
+            UpdatePermissionMatrix(permissionMatrix, line, column, board);
 
             column = currentPosition.Column + two;
 
-            PrvUpdatePermissionMatrix(permissionMatrix, line, column, board);
+            UpdatePermissionMatrix(permissionMatrix, line, column, board);
         }
 
-        private void PrvCheckHorizontally(bool[,] permissionMatrix, Board board)
+        private void CheckHorizontally(bool[,] permissionMatrix, Board board)
         {
             int line = currentPosition.Line + two;
             int column = currentPosition.Column + one;
 
-            PrvUpdatePermissionMatrix(permissionMatrix, line, column, board);
+            UpdatePermissionMatrix(permissionMatrix, line, column, board);
 
             column = currentPosition.Column - one;
 
-            PrvUpdatePermissionMatrix(permissionMatrix, line, column, board);
+            UpdatePermissionMatrix(permissionMatrix, line, column, board);
 
             line = currentPosition.Line - two;
 
-            PrvUpdatePermissionMatrix(permissionMatrix, line, column, board);
+            UpdatePermissionMatrix(permissionMatrix, line, column, board);
 
             column = currentPosition.Column + one;
 
-            PrvUpdatePermissionMatrix(permissionMatrix, line, column, board);
+            UpdatePermissionMatrix(permissionMatrix, line, column, board);
         }
 
-        private void PrvUpdatePermissionMatrix(bool[,] permissionMatrix, int line, int column, Board board)
+        private void UpdatePermissionMatrix(bool[,] permissionMatrix, int line, int column, Board board)
         {
             Piece pieceAtPosition = board.LookAt(core.CreatePosition(line, column));
 
@@ -80,6 +81,5 @@ namespace FunChess.Core.Models.Pieces
                 permissionMatrix[line, column] = true;
             }
         }
-        #endregion
     }
 }

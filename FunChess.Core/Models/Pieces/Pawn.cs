@@ -1,7 +1,6 @@
 ﻿using FunChess.Core.Enums;
 using FunChess.Core.Exceptions;
 using FunChess.Core.Factory;
-using System;
 
 namespace FunChess.Core.Models.Pieces
 {
@@ -13,6 +12,7 @@ namespace FunChess.Core.Models.Pieces
         {
         }
 
+
         public override bool[,] GetPermissionMatrix(Board board)
         {
             if (Position == null)
@@ -22,11 +22,11 @@ namespace FunChess.Core.Models.Pieces
             int initialLine = (Color == PieceColor.White) ? 1 : 6;
             int enPassantLine = (Color == PieceColor.White) ? 4 : 3;
 
-            PrvValidateNextSquare(increment, board.Grid, permissionMatrix);
-            PrvValidateThePresenceOfLeftFoe(increment, board.Grid, permissionMatrix);
-            PrvValidateThePresenceOfRightFoe(increment, board.Grid, permissionMatrix);
-            PrvValidateSecondNextSquareInCasePawnIsAtInitialLine(increment, initialLine, board.Grid, permissionMatrix);
-            PrvValidateEnPassant(board, enPassantLine, increment, permissionMatrix);
+            ValidateNextSquare(increment, board.Grid, permissionMatrix);
+            ValidateThePresenceOfLeftFoe(increment, board.Grid, permissionMatrix);
+            ValidateThePresenceOfRightFoe(increment, board.Grid, permissionMatrix);
+            ValidateSecondNextSquareInCasePawnIsAtInitialLine(increment, initialLine, board.Grid, permissionMatrix);
+            ValidateEnPassant(board, enPassantLine, increment, permissionMatrix);
 
             return permissionMatrix;
         }
@@ -36,11 +36,10 @@ namespace FunChess.Core.Models.Pieces
             return "Pa";
         }
 
-        #region Private helpers
-        #region GetPermissionMatrix helpers
-        private void PrvValidateEnPassant(Board board, int enPassantLine, int increment, bool[,] permissionMatrix)
+
+        private void ValidateEnPassant(Board board, int enPassantLine, int increment, bool[,] permissionMatrix)
         {
-            if (PrvIsEnPassant(board, enPassantLine))
+            if (IsEnPassant(board, enPassantLine))
             {
                 int permitedLine = enPassantLine + increment;
                 if (board.EnPassant.Side == EnPassantSide.Left)
@@ -54,72 +53,70 @@ namespace FunChess.Core.Models.Pieces
             }
         }
 
-        private bool PrvIsEnPassant(Board board, int enPassantLine)
+        private bool IsEnPassant(Board board, int enPassantLine)
         {
             return Position.Line == enPassantLine && board.EnPassant != null;
         }
 
-        private void PrvValidateSecondNextSquareInCasePawnIsAtInitialLine(int increment, int initialLine, Piece[,] grid, bool[,] permissionMatrix)
+        private void ValidateSecondNextSquareInCasePawnIsAtInitialLine(int increment, int initialLine, Piece[,] grid, bool[,] permissionMatrix)
         {
             Position position = core.CreatePosition(Position.Line + 2 * increment, Position.Column);
 
-            if (PrvIsInitialtLine(Position.Line, initialLine) && PrvIsEmptySquare(grid, position))
+            if (IsInitialtLine(Position.Line, initialLine) && IsEmptySquare(grid, position))
             {
                 ApprovePosition(permissionMatrix, position);
             }
         }
 
-        private bool PrvIsInitialtLine(int line, int initialLine)
+        private bool IsInitialtLine(int line, int initialLine)
         {
             return line == initialLine;
         }
 
-        private void PrvValidateThePresenceOfRightFoe(int increment, Piece[,] grid, bool[,] permissionMatrix)
+        private void ValidateThePresenceOfRightFoe(int increment, Piece[,] grid, bool[,] permissionMatrix)
         {
             Position position = core.CreatePosition(Position.Line + increment, Position.Column + increment);
 
-            if (PrvIsInsideLimits(position.Column) && PrvIsThereAnyFoeAt(grid, position))
+            if (IsInsideLimits(position.Column) && IsThereAnyFoeAt(grid, position))
             {
                 ApprovePosition(permissionMatrix, position);
             }
         }
 
-        private void PrvValidateThePresenceOfLeftFoe(int increment, Piece[,] grid, bool[,] permissionMatrix)
+        private void ValidateThePresenceOfLeftFoe(int increment, Piece[,] grid, bool[,] permissionMatrix)
         {
             Position position = core.CreatePosition(Position.Line + increment, Position.Column - increment);
 
-            if (PrvIsInsideLimits(position.Column) && PrvIsThereAnyFoeAt(grid, position))
+            if (IsInsideLimits(position.Column) && IsThereAnyFoeAt(grid, position))
             {
                 ApprovePosition(permissionMatrix, position);
             }
         }
 
-        private bool PrvIsThereAnyFoeAt(Piece[,] grid, Position position)
+        private bool IsThereAnyFoeAt(Piece[,] grid, Position position)
         {
             Piece piece = grid[position.Line, position.Column];
             return piece != null && piece.Color != Color;
         }
 
-        private void PrvValidateNextSquare(int increment, Piece[,] grid, bool[,] permissionMatrix)
+        private void ValidateNextSquare(int increment, Piece[,] grid, bool[,] permissionMatrix)
         {
             Position position = core.CreatePosition(Position.Line + increment, Position.Column);
 
-            if (PrvIsInsideLimits(position.Line) && PrvIsEmptySquare(grid, position))
+            if (IsInsideLimits(position.Line) && IsEmptySquare(grid, position))
             {
                 ApprovePosition(permissionMatrix, position);
             }
         }
 
-        private bool PrvIsEmptySquare(Piece[,] grid, Position position)
+        private bool IsEmptySquare(Piece[,] grid, Position position)
         {
             return grid[position.Line, position.Column] == null;
         }
 
-        private bool PrvIsInsideLimits(int coordinate)
+        private bool IsInsideLimits(int coordinate)
         {
             return 0 <= coordinate && coordinate <= 7;
         }
-        #endregion
-        #endregion
     }
 }

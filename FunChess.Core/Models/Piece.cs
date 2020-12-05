@@ -28,6 +28,7 @@ namespace FunChess.Core.Models
             Position = new Position(-1, -1);
         }
 
+
         public abstract bool[,] GetPermissionMatrix(Board board);
 
         public int CountPermitedPositions()

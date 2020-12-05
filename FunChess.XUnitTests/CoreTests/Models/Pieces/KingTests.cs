@@ -2,9 +2,7 @@
 using FunChess.Core.Factory;
 using FunChess.Core.Models;
 using FunChess.Core.Models.Pieces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace FunChess.XUnitTests.CoreTests.Models.Pieces
@@ -39,7 +37,7 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
             // Assert
             Assert.NotNull(permissionMatrix);
             Assert.Equal(8, amountOfPermitedPositions);
-            PrvAssertAllowedSetIsOkWhenKingIsFreeToMove(allowedSet);
+            AssertAllowedSetIsOkWhenKingIsFreeToMove(allowedSet);
         }
 
         [Fact]
@@ -62,7 +60,7 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
             // Assert
             Assert.NotNull(permissionMatrix);
             Assert.Equal(7, amountOfPermitedPositions);
-            PrvAssertAllowedSetIsOkWhenKingIsBlocked(allowedSet);
+            AssertAllowedSetIsOkWhenKingIsBlocked(allowedSet);
         }
 
         [Fact]
@@ -82,16 +80,17 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
             // Assert
             Assert.NotNull(permissionMatrix);
             Assert.Equal(8, amountOfPermitedPositions);
-            PrvAssertAllowedSetIsOkWhenKingIsFreeToMove(allowedSet);
+            AssertAllowedSetIsOkWhenKingIsFreeToMove(allowedSet);
         }
 
-        private void PrvAssertAllowedSetIsOkWhenKingIsFreeToMove(HashSet<Position> allowedSet)
+
+        private void AssertAllowedSetIsOkWhenKingIsFreeToMove(HashSet<Position> allowedSet)
         {
             Assert.Contains(core.CreatePosition(4, 4), allowedSet);
-            PrvAssertAllowedSetIsOkWhenKingIsBlocked(allowedSet);
+            AssertAllowedSetIsOkWhenKingIsBlocked(allowedSet);
         }
 
-        private void PrvAssertAllowedSetIsOkWhenKingIsBlocked(HashSet<Position> allowedSet)
+        private void AssertAllowedSetIsOkWhenKingIsBlocked(HashSet<Position> allowedSet)
         {
             Assert.Contains(core.CreatePosition(4, 5), allowedSet);
             Assert.Contains(core.CreatePosition(3, 5), allowedSet);

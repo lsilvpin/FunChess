@@ -2,7 +2,6 @@
 using FunChess.Core.Factory;
 using FunChess.Core.Models;
 using FunChess.Core.Models.Pieces;
-using FunChess.XUnitTests.TestTools.Factory;
 using System.Collections.Generic;
 using Xunit;
 
@@ -11,13 +10,12 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
     public class BishopTests
     {
         private readonly CoreFactory core;
-        private readonly TestFactory test;
 
         public BishopTests()
         {
             core = Beyond.Core;
-            test = TestVortex.Test;
         }
+
 
         [Fact]
         public void IsAllowedSetBeenCalculatedCorrectlyWhenBishopIsThreatening()
@@ -39,7 +37,7 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
             // Assert
             Assert.NotNull(permissionMatrix);
             Assert.Equal(8, amountOfAllowedPositions);
-            PrvAssertPositionsIsOkInCaseBishopIsThreatening(permitedPositions);
+            AssertPositionsIsOkInCaseBishopIsThreatening(permitedPositions);
         }
 
         [Fact]
@@ -64,7 +62,7 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
             Assert.NotNull(bishopPermissionMatrix);
             Assert.Equal(4, amountOfPermitedPositions);
             Assert.NotNull(bishopAllowedSet);
-            PrvAssertPositionsIsOkInCaseBishopIsBlocked(bishopAllowedSet);
+            AssertPositionsIsOkInCaseBishopIsBlocked(bishopAllowedSet);
         }
 
         [Fact]
@@ -86,11 +84,11 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
             Assert.Equal(13, amountOfPermitedPositions);
             Assert.NotNull(bishopAllowedSet);
             Assert.Equal(13, bishopAllowedSet.Count);
-            PrvAssertPositionsIsOkInCaseBishopIsFree(bishopAllowedSet);
+            AssertPositionsIsOkInCaseBishopIsFree(bishopAllowedSet);
         }
 
-        #region Private helpers
-        private void PrvAssertPositionsIsOkInCaseBishopIsThreatening(HashSet<Position> permitedPositions)
+
+        private void AssertPositionsIsOkInCaseBishopIsThreatening(HashSet<Position> permitedPositions)
         {
             Assert.Contains(core.CreatePosition(3, 3), permitedPositions);
             Assert.Contains(core.CreatePosition(4, 4), permitedPositions);
@@ -102,7 +100,7 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
             Assert.Contains(core.CreatePosition(0, 0), permitedPositions);
         }
 
-        private void PrvAssertPositionsIsOkInCaseBishopIsBlocked(HashSet<Position> bishopAllowedSet)
+        private void AssertPositionsIsOkInCaseBishopIsBlocked(HashSet<Position> bishopAllowedSet)
         {
             Assert.Contains(core.CreatePosition(0, 0), bishopAllowedSet);
             Assert.Contains(core.CreatePosition(2, 2), bishopAllowedSet);
@@ -110,7 +108,7 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
             Assert.Contains(core.CreatePosition(0, 2), bishopAllowedSet);
         }
 
-        private void PrvAssertPositionsIsOkInCaseBishopIsFree(HashSet<Position> bishopAllowedSet)
+        private void AssertPositionsIsOkInCaseBishopIsFree(HashSet<Position> bishopAllowedSet)
         {
             Assert.Contains(core.CreatePosition(0, 0), bishopAllowedSet);
             Assert.Contains(core.CreatePosition(1, 1), bishopAllowedSet);
@@ -126,6 +124,5 @@ namespace FunChess.XUnitTests.CoreTests.Models.Pieces
             Assert.Contains(core.CreatePosition(5, 1), bishopAllowedSet);
             Assert.Contains(core.CreatePosition(6, 0), bishopAllowedSet);
         }
-        #endregion
     }
 }

@@ -25,8 +25,8 @@ namespace FunChess.Core.BusinessLogic
 
             if (match.Success)
             {
-                int line = PrvConvertLetterToLine(match.Groups[1].Value.ToLower());
-                int column = PrvConvertNumberToColumn(match.Groups[2].Value);
+                int line = ConvertLetterToLine(match.Groups[1].Value.ToLower());
+                int column = ConvertNumberToColumn(match.Groups[2].Value);
                 return core.CreatePosition(line, column);
             }
 
@@ -42,12 +42,12 @@ namespace FunChess.Core.BusinessLogic
 
             for (int i = 1; i < 8; i++)
             {
-                position = PrvGetCheckingPosition(orientation, i, origin);
+                position = GetCheckingPosition(orientation, i, origin);
 
                 if (Check.IsInsideLimits(position))
                 {
                     piece = board.LookAt(position);
-                    isBreak = PrvValidatePiece(piece, position, permissionMatrix, color);
+                    isBreak = ValidatePiece(piece, position, permissionMatrix, color);
                     if (isBreak) { break; }
                 }
                 else
@@ -62,20 +62,19 @@ namespace FunChess.Core.BusinessLogic
         {
             RookPermissionCheckModel checkModel = new RookPermissionCheckModel();
 
-            checkModel.IsPositiveOrientation = PrvGetOrientationSign(orientation);
-            checkModel.Direction = PrvGetDirection(orientation);
+            checkModel.IsPositiveOrientation = GetOrientationSign(orientation);
+            checkModel.Direction = GetDirection(orientation);
 
             checkModel.StartIndex = checkModel.IsPositiveOrientation ? 1 : -1;
             checkModel.EndIndex = checkModel.IsPositiveOrientation ? 8 : -8;
 
-            checkModel.LoopCondition = PrvGetLoopCondition(checkModel.IsPositiveOrientation);
+            checkModel.LoopCondition = GetLoopCondition(checkModel.IsPositiveOrientation);
 
-            PrvCheckPositionsToCalculateTookPermissionMatrix(checkModel, board, origin, permissionMatrix, color);
+            CheckPositionsToCalculateTookPermissionMatrix(checkModel, board, origin, permissionMatrix, color);
         }
 
 
-        #region Private helpers
-        private void PrvCheckPositionsToCalculateTookPermissionMatrix(
+        private void CheckPositionsToCalculateTookPermissionMatrix(
             RookPermissionCheckModel checkModel, Board board, Position origin, bool[,] permissionMatrix, PieceColor color)
         {
             Position position;
@@ -83,13 +82,13 @@ namespace FunChess.Core.BusinessLogic
 
             for (int increment = checkModel.StartIndex;
                 checkModel.LoopCondition.Invoke(increment, checkModel.EndIndex);
-                PrvIncrement(checkModel.IsPositiveOrientation, ref increment))
+                Increment(checkModel.IsPositiveOrientation, ref increment))
             {
-                position = PrvGetPositionFromDirection(checkModel.Direction, increment, origin);
+                position = GetPositionFromDirection(checkModel.Direction, increment, origin);
 
                 if (Check.IsInsideLimits(checkModel.Direction, position))
                 {
-                    isBreak = PrvValidatePosition(position, board, permissionMatrix, color);
+                    isBreak = ValidatePosition(position, board, permissionMatrix, color);
                     if (isBreak) { break; }
                 }
                 else
@@ -99,7 +98,7 @@ namespace FunChess.Core.BusinessLogic
             }
         }
 
-        private bool PrvValidatePosition(Position position, Board board, bool[,] permissionMatrix, PieceColor color)
+        private bool ValidatePosition(Position position, Board board, bool[,] permissionMatrix, PieceColor color)
         {
             Piece piece = board.LookAt(position);
 
@@ -119,23 +118,23 @@ namespace FunChess.Core.BusinessLogic
             }
         }
 
-        private loopCondition PrvGetLoopCondition(bool isPositiveOrientation)
+        private loopCondition GetLoopCondition(bool isPositiveOrientation)
         {
             loopCondition loopCondition;
 
             if (isPositiveOrientation)
             {
-                loopCondition = PrvLessThan;
+                loopCondition = LessThan;
             }
             else
             {
-                loopCondition = PrvGreaterThan;
+                loopCondition = GreaterThan;
             }
 
             return loopCondition;
         }
 
-        private Position PrvGetPositionFromDirection(Direction direction, int increment, Position position)
+        private Position GetPositionFromDirection(Direction direction, int increment, Position position)
         {
             if (direction == Direction.Vertical)
             {
@@ -147,7 +146,7 @@ namespace FunChess.Core.BusinessLogic
             }
         }
 
-        private Direction PrvGetDirection(Orientation orientation)
+        private Direction GetDirection(Orientation orientation)
         {
             if (orientation == Orientation.North || orientation == Orientation.South)
             {
@@ -159,7 +158,7 @@ namespace FunChess.Core.BusinessLogic
             }
         }
 
-        private bool PrvGetOrientationSign(Orientation direction)
+        private bool GetOrientationSign(Orientation direction)
         {
             if (direction == Orientation.North || direction == Orientation.East)
             {
@@ -169,17 +168,17 @@ namespace FunChess.Core.BusinessLogic
             return false;
         }
 
-        private bool PrvLessThan(int first, int second)
+        private bool LessThan(int first, int second)
         {
             return first < second;
         }
 
-        private bool PrvGreaterThan(int first, int second)
+        private bool GreaterThan(int first, int second)
         {
             return first > second;
         }
 
-        private void PrvIncrement(bool isPositiveOrientation, ref int line)
+        private void Increment(bool isPositiveOrientation, ref int line)
         {
             if (isPositiveOrientation)
             {
@@ -191,7 +190,7 @@ namespace FunChess.Core.BusinessLogic
             }
         }
 
-        private bool PrvValidatePiece(Piece piece, Position position, bool[,] permissionMatrix, PieceColor color)
+        private bool ValidatePiece(Piece piece, Position position, bool[,] permissionMatrix, PieceColor color)
         {
             if (piece == null)
             {
@@ -209,7 +208,7 @@ namespace FunChess.Core.BusinessLogic
             }
         }
 
-        private Position PrvGetCheckingPosition(Orientation orientation, int increment, Position origin)
+        private Position GetCheckingPosition(Orientation orientation, int increment, Position origin)
         {
             if (orientation == Orientation.NorthEast)
             {
@@ -229,13 +228,13 @@ namespace FunChess.Core.BusinessLogic
             }
         }
 
-        private int PrvConvertNumberToColumn(string value)
+        private int ConvertNumberToColumn(string value)
         {
             int.TryParse(value, out int column);
             return --column;
         }
 
-        private int PrvConvertLetterToLine(string letter)
+        private int ConvertLetterToLine(string letter)
         {
             return letter switch
             {
@@ -249,6 +248,5 @@ namespace FunChess.Core.BusinessLogic
                 _ => 7
             };
         }
-        #endregion
     }
 }
