@@ -31,6 +31,11 @@ namespace FunChess.Core.Models.Pieces
             return permissionMatrix;
         }
 
+        public override string ToString()
+        {
+            return "Pa";
+        }
+
         #region Private helpers
         #region GetPermissionMatrix helpers
         private void PrvValidateEnPassant(Board board, int enPassantLine, int increment, bool[,] permissionMatrix)

@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FunChess.Core\FunChess.Core.csproj" />
+    <ProjectReference Include="..\FunChess.Terminal\FunChess.Terminal.csproj" />
   </ItemGroup>
 
 </Project>

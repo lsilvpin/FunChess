@@ -18,7 +18,7 @@ namespace FunChess.Core.BusinessLogic
         }
 
 
-        public Position ConvertSquareNameToCoordinate(string squareName)
+        public Position ConvertSquareSignToPosition(string squareName)
         {
             Regex regex = new Regex("([a-h])([1-8])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             Match match = regex.Match(squareName);

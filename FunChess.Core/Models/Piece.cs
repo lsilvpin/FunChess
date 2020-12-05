@@ -1,6 +1,7 @@
 ﻿using FunChess.Core.Enums;
 using FunChess.Core.Exceptions;
 using FunChess.Core.Factory;
+using FunChess.Core.Models.Pieces;
 using System;
 using System.Collections.Generic;
 

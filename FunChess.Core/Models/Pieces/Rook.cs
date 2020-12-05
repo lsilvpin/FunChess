@@ -26,9 +26,13 @@ namespace FunChess.Core.Models.Pieces
             return permissionMatrix;
         }
 
+        public override string ToString()
+        {
+            return "Ro";
+        }
 
         #region Private helpers
-        
+
         #endregion
     }
 }

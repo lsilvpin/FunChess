@@ -24,6 +24,11 @@ namespace FunChess.Core.Models.Pieces
             return permissionMatrix;
         }
 
+        public override string ToString()
+        {
+            return "Kn";
+        }
+
         #region Private helpers
         private void PrvCheckVertically(bool[,] permissionMatrix, Board board)
         {

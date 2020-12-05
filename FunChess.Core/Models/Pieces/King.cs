@@ -29,6 +29,11 @@ namespace FunChess.Core.Models.Pieces
             return permissionMatrix;
         }
 
+        public override string ToString()
+        {
+            return "Ki";
+        }
+
         #region Private helpers
         private void StepRight(Board board, Position position)
         {

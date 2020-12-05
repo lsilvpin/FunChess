@@ -24,7 +24,7 @@ namespace FunChess.XUnitTests.CoreTests.BusinessLogic
         [InlineData("a9")]
         public void IsSquareNamesBeenConvertedToCoordinatesCorrectly(string squareName)
         {
-            Position coordinate = brain.ConvertSquareNameToCoordinate(squareName);
+            Position coordinate = brain.ConvertSquareSignToPosition(squareName);
 
             if (squareName == "b2")
                 Assert.Equal(core.CreatePosition(1, 1), coordinate);

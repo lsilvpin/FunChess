@@ -1,6 +1,8 @@
 ﻿using FunChess.Core.BusinessLogic;
 using FunChess.Core.Enums;
 using FunChess.Core.Factory;
+using System;
+using System.Collections.Generic;
 
 namespace FunChess.Core.Models.Pieces
 {
@@ -15,7 +17,6 @@ namespace FunChess.Core.Models.Pieces
             this.brain = brain;
         }
 
-
         public override bool[,] GetPermissionMatrix(Board board)
         {
             brain.CheckPositionsToCalculateBishopPermissionMatrix(board, Orientation.NorthEast, Position, permissionMatrix, Color);
@@ -24,6 +25,11 @@ namespace FunChess.Core.Models.Pieces
             brain.CheckPositionsToCalculateBishopPermissionMatrix(board, Orientation.NorthWest, Position, permissionMatrix, Color);
 
             return permissionMatrix;
+        }
+
+        public override string ToString()
+        {
+            return "Bi";
         }
     }
 }
